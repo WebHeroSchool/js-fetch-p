@@ -34,5 +34,6 @@ function responseFetch(name) {
     })
     .catch(err => document.body.innerHTML = ('Информация о пользователе недоступна'));
   }
-// responseFetch(name);
-// console.log(window.location.search);
+
+responseFetch(name);
+console.log(window.location.search);
