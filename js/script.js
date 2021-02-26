@@ -1,27 +1,29 @@
 let url = window.location.href;
-let nameGenerator = (url) => {
+let getName = (url) => {
   let a = url.split('=');
   let name = a[1];
-  if (name == undifined) {
+  if (name == undefined) {
     name = 'ponomarenko-m';
   }
   return name;
 }
 
-fetch(`https:api.github.com/users/${nameGenerator(url)}`)
+fetch(`https://api.github.com/users/${getName(url)}`)
   .then(res => res.json())
   .then(json => {
-    let name = document.createElement('h1');
+    let callName = document.createElement('h1');
     if (json.name != null) {
-      name.innerHTML = json.name;
+      callName.innerHTML = json.name;
     } else {
-      name.innerHTML = 'Данные отсутствуют';
+      callName.innerHTML = 'Данные отсутствуют';
     }
-    document.body.append(name);
-    name.addEventListener('click', () => window.location = json.html_url);
+    document.body.append(callName);
+    callName.addEventListener('click', () => window.location = json.html_url);
 
     let description = document.createElement('p');
     if(json.bio != null) {
+      description.innerHTML = json.bio;
+    } else {
       description.innerHTML = 'Данные отсутствуют';
     }
     document.body.append(description);
