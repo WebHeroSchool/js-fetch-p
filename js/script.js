@@ -1,3 +1,4 @@
+let body = document.body
 let url = window.location.href;
 let getName = (url) => {
   let a = url.split('=');
@@ -9,16 +10,17 @@ let getName = (url) => {
 }
 
 fetch(`https://api.github.com/users/${getName(url)}`)
+//fetch(`https://api.github.com/users/defunkt`)
   .then(res => res.json())
   .then(json => {
-    let callName = document.createElement('h1');
+    let name = document.createElement('h1');
     if (json.name != null) {
-      callName.innerHTML = json.name;
+      name.innerHTML = json.name;
     } else {
-      callName.innerHTML = 'Данные отсутствуют';
+      name.innerHTML = 'Данные отсутствуют';
     }
-    document.body.append(callName);
-    callName.addEventListener('click', () => window.location = json.html_url);
+    document.body.append(name);
+    name.addEventListener('click', () => window.location = json.html_url);
 
     let description = document.createElement('p');
     if(json.bio != null) {
