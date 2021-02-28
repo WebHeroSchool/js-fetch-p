@@ -4,7 +4,7 @@ let getName = (url) => {
   let a = url.split('=');
   let name = a[1];
   if (name == undefined) {
-    name = 'ponomarenko-m';
+    name = prompt('Введите логин');
   }
   return name;
 }
