@@ -1,16 +1,23 @@
-let body = document.body
-let url = window.location.href;
-let getName = (url) => {
-  let a = url.split('=');
-  let name = a[1];
-  if (name == undefined) {
-    name = prompt('Введите логин');
-  }
-  return name;
-}
 
-fetch(`https://api.github.com/users/${getName(url)}`)
-//fetch(`https://api.github.com/users/defunkt`)
+let name = prompt('Введите логин:');
+let user = `https://api.github.com/users/${name}`;
+let date = new Date();
+
+setTimeout(() => {
+  const preloader = document.getElementById('preloader');
+  preloader.classList.add('stop');
+}, 3000);
+
+let getDate = new Promise((resolve, reject) => {
+  setTimeout(() => date ? resolve(document.body.append(date)) : reject('Ошибка.'), 2000)
+});
+
+let getUser = new Promise((resolve, reject) => {
+  setTimeout(() => user ? resolve(user) : reject('Ссылка не найдена.'), 2000)
+});
+
+Promise.all([getUser, getDate])
+  .then(() => fetch(`${user}`))
   .then(res => res.json())
   .then(json => {
     let name = document.createElement('h1');
@@ -33,6 +40,5 @@ fetch(`https://api.github.com/users/${getName(url)}`)
     let image = new Image();
     image.src = json.avatar_url;
     document.body.append(image);
-  })
-
-  .catch(err => console.log(err));
+   })
+   .catch(err => document.body.append('Информация о пользователе не доступна.'));
