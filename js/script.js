@@ -1,7 +1,16 @@
-
-let name = prompt('Введите логин:');
-let user = `https://api.github.com/users/${name}`;
+let body = document.body
+let url = window.location.toString();
 let date = new Date();
+
+let getUserName = (url) => {
+  let getUrl = url.split('=');
+  let name = getUrl[1];
+  if(name == undefined) {
+    name = 'ponomarenko-m';
+  }
+  return name;
+}
+let userName = getUserName(url)
 
 setTimeout(() => {
   const preloader = document.getElementById('preloader');
@@ -13,11 +22,11 @@ let getDate = new Promise((resolve, reject) => {
 });
 
 let getUser = new Promise((resolve, reject) => {
-  setTimeout(() => user ? resolve(user) : reject('Ссылка не найдена.'), 2000)
+  setTimeout(() => userName ? resolve(userName) : reject('Ссылка не найдена.'), 2000)
 });
 
 Promise.all([getUser, getDate])
-  .then(() => fetch(`${user}`))
+  .then(([userName, date]) => fetch(`https://api.github.com/users/${getUserName(url)}`))
   .then(res => res.json())
   .then(json => {
     let name = document.createElement('h1');
